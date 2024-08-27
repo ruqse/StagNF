@@ -1,7 +1,7 @@
 // modules/extract_unmapped_reads.nf
 process EXTRACT_UNMAPPED_READS {
     tag "${sample_id}"
-    publishDir "${params.output_dir}/logs/host_removal", mode: 'copy', pattern: '*.stderr'
+    publishDir "${params.output_dir}/logs/host_removal", mode: 'copy', pattern: '*.log'
     publishDir "${params.output_dir}/host_removal", mode: 'copy', pattern: '*.{bam,sorted.bam}'
 
     input:
@@ -9,12 +9,20 @@ process EXTRACT_UNMAPPED_READS {
 
     output:
     tuple val(sample_id), path("*_unmapped.sorted.bam"), val(single_end), emit: extract_unmapped_sorted_output
-    path("*.stderr"), emit: extract_unmapped_reads_logs
+    path("*.log"), emit: extract_unmapped_reads_logs
 
     script:
+    def flags = single_end ? "-f 4" : "-f 13 -F 256"
     """
-    samtools view -b -f 13 -F 256 --threads $task.cpus ${sam2bam_output} -o ${sample_id}_unmapped.bam 2> ${sample_id}.unmapped.stderr
-    samtools sort -n -m 5G --threads $task.cpus ${sample_id}_unmapped.bam -o ${sample_id}_unmapped.sorted.bam 2> ${sample_id}.sort.stderr
+    samtools view \
+        -b \
+        ${flags} \
+        --threads $task.cpus \
+        ${sam2bam_output} \
+        -o ${sample_id}_unmapped.bam \
+        2> ${sample_id}.unmapped.log
+    
+    samtools sort -n -m 5G --threads $task.cpus ${sample_id}_unmapped.bam -o ${sample_id}_unmapped.sorted.bam 2> ${sample_id}.sort.log
     """
 }
 
