@@ -1,10 +1,10 @@
-# Ignore Nextflow directory and files
+# Ignore Nextflow directory 
 .nextflow/
 
 # Ignore work directory
 work
 
-# Ignore log files
+# Ignore NF log files
 .nextflow.log*
 
 
@@ -13,3 +13,5 @@ MiniSta*
 mpa_vOct22_CHOCOPhlAnSGB_202212
 
 testdata_PE_results
+
+testdata_mix_results

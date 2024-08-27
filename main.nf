@@ -2,7 +2,7 @@
 nextflow.enable.dsl=2
 
 // Input parameters
-params.reads = "$projectDir/data/testdata_SE/*.fastq.gz"
+params.reads = "$projectDir/data/testdata_mix/*{1,2}.fastq.gz"
 // params.single_end = false
 params.reference = "/sw/data/reference/Homo_sapiens/hg19/program_files/bowtie2/concat"
 params.metaphlan_db = "/crex/proj/naiss2023-23-521/nobackup/Analyses/Faruk/Vaginal_microbiome/MiniStagNF/mpa_vOct22_CHOCOPhlAnSGB_202212"
@@ -50,17 +50,18 @@ include { MULTIQC } from './modules/multiqc'
 
 // Create input channel
 Channel
-    .fromFilePairs(params.reads, checkIfExists: true, size: -1)
-    .map { sample_id, files -> 
+    .fromFilePairs(params.reads, size: -1, checkIfExists: true) { file -> 
+        file.name.replaceAll(/\.fastq\.gz$/, '').replaceAll(/_[12]$/, '')
+    }
+    .map { sample_id, files ->
         def single_end = files.size() == 1
         return tuple(sample_id, files, single_end)
     }
+    .unique()
     .set { read_pairs_ch }
 
-
-// Debug: Print channel content
 read_pairs_ch.view { sample_id, files, single_end -> 
-    "Sample: $sample_id, Files: $files, Single-end: $single_end"
+    "Sample: $sample_id, Files: $files, Single-end: $single_end" 
 }
 
 
