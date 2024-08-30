@@ -2,7 +2,7 @@
 .nextflow/
 
 # Ignore work directory
-work
+work/
 
 # Ignore NF log files
 .nextflow.log*
@@ -13,5 +13,26 @@ MiniSta*
 mpa_vOct22_CHOCOPhlAnSGB_202212
 
 testdata_PE_results
+testdata_PE_results
 
 testdata_mix_results
+
+data/PRJNA639592_GAPPS_WIHSC/
+
+PRJNA639592_GAPPS_WIHSC_results/
+
+data/PRJNA838641_KENYA/
+
+PRJNA838641_KENYA_results/
+
+data/PRJNA826539_FIJI/
+
+PRJNA826539_FIJI_results/
+
+data/PRJEB34085_ISRAEL/
+data/
+PRJNA701480_NZ_results/
+PRJEB34085_ISRAEL_results/
+
+PRJEB37731_MiMens_SE/
+PRJEB37731_MiMens_SE_results/

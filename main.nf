@@ -2,24 +2,22 @@
 nextflow.enable.dsl=2
 
 // Input parameters
-params.reads = "$projectDir/data/testdata_mix/*{1,2}.fastq.gz"
-// params.single_end = false
+params.reads = "$projectDir/data/PRJEB34085_ISRAEL/*{1,2,R1,R2}.fastq.gz"
+params.single_end_reads = "$projectDir/data/PRJEB34085_ISRAEL/*.fastq.gz"
 params.reference = "/sw/data/reference/Homo_sapiens/hg19/program_files/bowtie2/concat"
 params.metaphlan_db = "/crex/proj/naiss2023-23-521/nobackup/Analyses/Faruk/Vaginal_microbiome/MiniStagNF/mpa_vOct22_CHOCOPhlAnSGB_202212"
 params.metaphlan_index = "mpa_vOct22_CHOCOPhlAnSGB_202212"
 
 // Validate input
-def input_files = file(params.reads)
-if( input_files instanceof List ) {
-    if( input_files.size() == 0 ) {
-        error "No files found matching pattern: ${params.reads}"
-    }
-} else if( !input_files.exists() ) {
-    error "File or directory not found: ${params.reads}"
+def paired_files = file(params.reads)
+def single_files = file(params.single_end_reads)
+if (paired_files.size() == 0 && single_files.size() == 0) {
+    error "No files found matching patterns: ${params.reads} or ${params.single_end_reads}"
 }
 
 // Derive output directory name
-def input_dir = input_files[0].parent
+def input_files = file(params.reads)
+def input_dir = input_files[0].parent  // Take the parent of the first file
 params.output_dir = "${input_dir.name}_results"
 
 // Create output directory
@@ -27,7 +25,8 @@ file(params.output_dir).mkdirs()
 
 // Debug: Print input parameters
 log.info """
-         Input reads: ${params.reads}
+         Paired-end reads: ${params.reads}
+         Single-end reads: ${params.single_end_reads}
          Reference: ${params.reference}
          Output directory: ${params.output_dir}
          """
@@ -48,22 +47,33 @@ include { MULTIQC } from './modules/multiqc'
 
 
 
-// Create input channel
+// Channel for all reads (both paired-end and single-end)
 Channel
-    .fromFilePairs(params.reads, size: -1, checkIfExists: true) { file -> 
-        file.name.replaceAll(/\.fastq\.gz$/, '').replaceAll(/_[12]$/, '')
+    .fromPath(params.single_end_reads)
+    .map { file -> 
+        def sample_id = file.name.replaceAll(/\.fastq\.gz$/, '')
+        def is_paired = sample_id.endsWith("_1") || sample_id.endsWith("_2") || 
+                        sample_id.endsWith("_R1") || sample_id.endsWith("_R2")
+        if (is_paired) {
+            sample_id = sample_id.replaceAll(/_[12]$/, '').replaceAll(/_R[12]$/, '')
+        }
+        return tuple(sample_id, file, !is_paired)  // true for single-end, false for paired-end
     }
-    .map { sample_id, files ->
-        def single_end = files.size() == 1
+    .groupTuple(by: [0, 2])
+    .map { sample_id, files, single_end ->
+        if (!single_end && files.size() != 2) {
+            log.warn "Expected 2 files for paired-end sample $sample_id, but got ${files.size()}. Skipping this sample."
+            return null
+        }
         return tuple(sample_id, files, single_end)
     }
-    .unique()
+    .filter { it != null }
     .set { read_pairs_ch }
 
+// View the combined channel
 read_pairs_ch.view { sample_id, files, single_end -> 
     "Sample: $sample_id, Files: $files, Single-end: $single_end" 
 }
-
 
 // Main workflow
 workflow {
@@ -89,8 +99,6 @@ workflow {
     extract_unmapped_fastq_output.extract_unmapped_fastq_output.view { "EXTRACT_UNMAPPED_FASTQ output: $it" }
     
     
-    // Debug: Print extract_unmapped_fastq_output
-    extract_unmapped_fastq_output.extract_unmapped_fastq_output.view { "EXTRACT_UNMAPPED_FASTQ output: $it" }
     
     // Collect fastp JSON logs with full paths
     fastp_json_logs_all = fastp_output.fastp_json_logs.collect()
