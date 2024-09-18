@@ -73,3 +73,4 @@ PRJNA826539_FIJI_report.html
 PRJNA826539_FIJI_trace.txt
 StaGnextflow_init.sh
 PRJNA669294_USA2021_results/*
+testdata_SE_results/host_removal/*.sam
