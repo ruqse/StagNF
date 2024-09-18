@@ -12,10 +12,11 @@ MiniSta*
 
 mpa_vOct22_CHOCOPhlAnSGB_202212
 
-testdata_PE_results
-testdata_PE_results
-testdata_SE_results
-testdata_mix_results
+testdata_PE_results/*
+testdata_PE_results/*
+testdata_SE_results/*
+testdata_mix_results/*
+testdata_SE_results/*
 
 data/PRJNA639592_GAPPS_WIHSC/
 
@@ -71,3 +72,4 @@ PRJEB37731_MiMens_SE_trace.txt
 PRJNA826539_FIJI_report.html
 PRJNA826539_FIJI_trace.txt
 StaGnextflow_init.sh
+PRJNA669294_USA2021_results/*
