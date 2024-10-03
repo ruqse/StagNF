@@ -2,7 +2,7 @@
 process BOWTIE2 {
     tag "${sample_id}"
     publishDir "${params.output_dir}/logs/bowtie2", mode: 'copy', pattern: '*.log'
-    //publishDir "${params.output_dir}/host_removal", mode: 'copy', pattern: '*.{sam}'
+    publishDir "${params.output_dir}/host_removal", mode: 'copy', pattern: '*.{sam}'
 
     input:
     tuple val(sample_id), path(fastp_output), val(single_end)

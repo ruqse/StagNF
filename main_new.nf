@@ -2,8 +2,8 @@
 nextflow.enable.dsl=2
 
 // Input parameters
-params.reads = "$projectDir/data/PRJEB37382_SWEDEN2020/*{1,2,R1,R2}.fastq.gz"
-params.single_end_reads = "$projectDir/data/PRJEB37382_SWEDEN2020/*.fastq.gz"
+params.reads = "$projectDir/data/TEST/*{1,2,R1,R2}.fastq.gz"
+params.single_end_reads = "$projectDir/data/TEST/*.fastq.gz"
 params.reference = "/sw/data/reference/Homo_sapiens/hg19/program_files/bowtie2/concat"
 params.metaphlan_db = "/crex/proj/naiss2023-23-521/nobackup/Analyses/Faruk/Vaginal_microbiome/MiniStagNF/mpa_vOct22_CHOCOPhlAnSGB_202212"
 params.metaphlan_index = "mpa_vOct22_CHOCOPhlAnSGB_202212"
@@ -17,10 +17,8 @@ if (paired_files.size() == 0 && single_files.size() == 0) {
 
 // Derive output directory name
 def input_files = file(params.reads)
-//def input_dir = input_files[0].parent  // Take the parent of the first file
-//def input_dir = input_files[0].parent  // Take the parent of the first file
-//params.output_dir = "${input_dir.name}_results"
-params.output_dir = "PRJEB37382_SWEDEN2020_results"
+def input_dir = input_files[0].parent  // Take the parent of the first file
+params.output_dir = "${input_dir.name}_results"
 
 // Create output directory
 file(params.output_dir).mkdirs()
