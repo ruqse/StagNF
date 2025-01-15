@@ -216,7 +216,6 @@ usefulCOMMANDS.txt
 fix_fq.py
 fix_fq.sh
 gitKEY.sh
-StaGnextflow_init.sh
 SRR11294779.fastp.log
 SRR11294779.fastp.json
 PRJNA707585_USA2023_results
@@ -236,5 +235,7 @@ PRJEB37731_SWEDEN2023_WGS_results
 main_viralbench.nf
 .nextflow.pid
 .nextflow.pid
-modules_viralbench/
+modules_viralbench/*
 process_cohortresults.sh
+modules_viralbench
+modules_viralbench/
