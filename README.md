@@ -5,7 +5,7 @@
 [![UPPMAX Ready](https://img.shields.io/badge/UPPMAX-Ready-blue.svg)](https://www.uppmax.uu.se/)
 [![HPC Compatible](https://img.shields.io/badge/HPC-Compatible-orange.svg)](https://github.com/ruqse/StagNF)
 
-A Nextflow adaptation of the [StaG Metagenomic Workflow Collaboration (mwc)](https://github.com/ctmrbio/stag-mwc) project. This pipeline performs quality control, host removal, and taxonomic profiling of metagenomic samples. Initially developed for UPPMAX clusters but can be easily adaptable to any HPC environment.
+A Nextflow adaptation of part of the comprehensive [StaG Metagenomic Workflow Collaboration (mwc)](https://github.com/ctmrbio/stag-mwc) workflow. It is still under development to mirror the original workflow. This pipeline performs quality control, host removal, and taxonomic profiling of metagenomic samples. Initially developed for UPPMAX clusters but can be easily adaptable to any HPC environment.
 
 ---
 
