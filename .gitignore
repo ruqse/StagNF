@@ -237,3 +237,5 @@ PRJEB37731_SWEDEN2023_WGS_results
 main_viralbench.nf
 .nextflow.pid
 .nextflow.pid
+modules_viralbench
+process_cohortresults.sh
