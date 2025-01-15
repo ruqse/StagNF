@@ -239,3 +239,4 @@ modules_viralbench/*
 process_cohortresults.sh
 modules_viralbench
 modules_viralbench/
+modules_viralbench
