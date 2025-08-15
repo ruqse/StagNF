@@ -9,7 +9,7 @@ A Nextflow adaptation of part of the comprehensive [StaG Metagenomic Workflow Co
 
 ---
 
-## 🔍 Overview
+## Overview
 
 The pipeline performs the following steps:
 
@@ -20,7 +20,7 @@ The pipeline performs the following steps:
 
 ---
 
-## ⚡ Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -116,7 +116,7 @@ The pipeline performs the following steps:
 
 ---
 
-## 📥 Input
+## Input
 
 The pipeline accepts both paired-end and single-end FASTQ files:
 
@@ -130,7 +130,7 @@ params.single_end_reads = "$projectDir/data/*.fastq.gz"
 
 ---
 
-## 📤 Output Structure
+## Output Structure
 
 The pipeline generates the following directory structure:
 
@@ -172,7 +172,7 @@ results/
 
 ---
 
-## 🧩 Modules & Scripts
+## Modules & Scripts
 
 ### Core Processing Modules
 
@@ -292,19 +292,19 @@ Please cite the following if you use this pipeline:
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 💬 Support
+## Support
 
-- 🐛 [Report a bug](https://github.com/ruqse/StagNF/issues)
+- [Report a bug](https://github.com/ruqse/StagNF/issues)
 
 ---
 
-## 👏 Acknowledgments
+## Acknowledgments
 
 This pipeline is adapted from the StaG Metagenomic Workflow Collaboration (mwc) project, originally developed as a Snakemake workflow. The Nextflow implementation maintains the core functionality while leveraging Nextflow's workflow management capabilities.
 
